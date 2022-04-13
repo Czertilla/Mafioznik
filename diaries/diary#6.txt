@@ -1,0 +1,48 @@
+Game #6		0x00000000035BB08
+
+		Stepa -- maniac
+		Sasha -- bodyguard
+		Kolya -- mafia
+		Lisa -- tec
+		Masha -- mistress
+		Vanya -- civil
+		Misha -- doc
+		Nastya -- lawyer
+Day 0
+NO bodies were found this morning
+Night 0
+	Masha(mistress) choised Masha(mistress)
+	Misha(doc) choised Misha(doc)
+	Kolya(mafia) choised Vanya(civil)
+	Lisa(tec) choised Sasha(bodyguard)
+			peaceful
+	Nastya(lawyer) choised Kolya(mafia)
+	Stepa(maniac) choised Vanya(civil)
+	Sasha(bodyguard) choised Vanya(civil)
+Day 1
+1bodies were found this morning['Sasha'] 
+	Voting:
+		Stepa (maniac, vote weight is 1) voted for Kolya (mafia)
+		But this fucker had an alibi
+		Kolya (mafia, vote weight is 1) voted for Lisa (tec)
+		Lisa (tec, vote weight is 1) voted for Kolya (mafia)
+		But this fucker had an alibi
+		Masha (mistress, vote weight is 0) voted for Misha (doc)
+		Vanya (civil, vote weight is 1) voted for Lisa (tec)
+		Misha (doc, vote weight is 1) voted for Masha (mistress)
+		Nastya (lawyer, vote weight is 1) voted for Kolya (mafia)
+		But this fucker had an alibi
+{'Lisa': 2, 'Misha': 0, 'Masha': 1}
+	Lisa was exiled
+NO bodies were found this morning
+Night 1
+	Masha(mistress) choised Kolya(mafia)
+	Misha(doc) choised Masha(mistress)
+	Kolya(mafia) choised Kolya(mafia)
+	Nastya(lawyer) choised Nastya(lawyer)
+	Stepa(maniac) choised Vanya(civil)
+Day 2
+1bodies were found this morning['Vanya'] 
+NO bodies were found this morning
+Night 2
+		criminal Wins!!

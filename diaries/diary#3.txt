@@ -1,0 +1,14 @@
+Game #3
+
+		Vanya -- civil
+		Misha -- mafia
+		Kolya -- tec
+Day 0
+Night 0
+	Misha(mafia) choised Kolya(tec)
+	Kolya(tec) choised Misha(mafia)
+			criminal
+	Day 1
+1bodies were found this morning[<player.Player object at 0x00000000035E1550>] 
+Night 1
+		criminal Wins!!

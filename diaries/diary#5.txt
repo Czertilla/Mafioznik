@@ -1,0 +1,70 @@
+Game #5
+
+		Masha -- doc
+		Sasha -- maniac
+		Misha -- mafia
+		Stepa -- mistress
+		Lisa -- bodyguard
+		Kolya -- tec
+		Nastya -- lawyer
+		Vanya -- civil
+Night 0
+	Stepa(mistress) choised Masha(doc)
+	Masha(doc) choised Vanya(civil)
+	Misha(mafia) choised Stepa(mistress)
+	Kolya(tec) choised Masha(doc)
+			criminal
+	Nastya(lawyer) choised Kolya(tec)
+	Sasha(maniac) choised Vanya(civil)
+	Lisa(bodyguard) choised Vanya(civil)
+Day 1
+2bodies were found this morning['Masha', 'Lisa'] 
+	Voting:
+			Sasha (maniac, vote weight is 1) voted for Vanya (civil)
+		Misha (mafia, vote weight is 1) voted for Kolya (tec)
+		But this fucker had an alibi
+		Stepa (mistress, vote weight is 1) voted for Kolya (tec)
+		But this fucker had an alibi
+		Kolya (tec, vote weight is 1) voted for Misha (mafia)
+		Nastya (lawyer, vote weight is 1) voted for Misha (mafia)
+		Vanya (civil, vote weight is 1) voted for Nastya (lawyer)
+{'Nastya': 1, 'Vanya': 1, 'Misha': 2}
+	Misha was exiled
+Night 1
+	Stepa(mistress) choised Sasha(maniac)
+	Kolya(tec) choised Sasha(maniac)
+			criminal
+	Nastya(lawyer) choised Vanya(civil)
+	Sasha(maniac) choised Nastya(lawyer)
+Day 2
+NO bodies were found this morning
+	Voting:
+			Sasha (maniac, vote weight is 0) voted for Nastya (lawyer)
+		Stepa (mistress, vote weight is 1) voted for Nastya (lawyer)
+		Kolya (tec, vote weight is 1) voted for Sasha (maniac)
+		Nastya (lawyer, vote weight is 1) voted for Vanya (civil)
+		But this fucker had an alibi
+		Vanya (civil, vote weight is 1) voted for Kolya (tec)
+{'Kolya': 1, 'Nastya': 1, 'Sasha': 1}
+	No one was exiled
+Night 2
+	Stepa(mistress) choised Kolya(tec)
+	Kolya(tec) choised Stepa(mistress)
+			renegade
+	Nastya(lawyer) choised Nastya(lawyer)
+	Sasha(maniac) choised Stepa(mistress)
+Day 3
+2bodies were found this morning['Stepa', 'Kolya'] 
+	Voting:
+			Sasha (maniac, vote weight is 1) voted for Nastya (lawyer)
+		But this fucker had an alibi
+		Nastya (lawyer, vote weight is 1) voted for Sasha (maniac)
+		Vanya (civil, vote weight is 1) voted for Vanya (civil)
+{'Sasha': 1, 'Vanya': 1}
+	No one was exiled
+Night 3
+	Nastya(lawyer) choised Vanya(civil)
+	Sasha(maniac) choised Nastya(lawyer)
+Day 4
+1bodies were found this morning['Nastya'] 
+		renegade Wins!!

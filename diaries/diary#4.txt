@@ -1,0 +1,42 @@
+Game #4
+
+		Lisa -- bodyguard
+		Nastya -- lawyer
+		Stepa -- mistress
+		Vanya -- civil
+		Kolya -- tec
+		Sasha -- maniac
+		Masha -- doc
+		Misha -- mafia
+Day 0
+Night 0
+	Stepa(mistress) choised Masha(doc)
+	Masha(doc) choised Vanya(civil)
+	Misha(mafia) choised Stepa(mistress)
+	Kolya(tec) choised Masha(doc)
+			criminal
+	Nastya(lawyer) choised Kolya(tec)
+	Sasha(maniac) choised Vanya(civil)
+	Lisa(bodyguard) choised Vanya(civil)
+Day 1
+2bodies were found this morning['Masha', 'Lisa'] 
+	Voting:
+			Nastya (lawyer, vote weight is 1) voted for Kolya (tec)
+		But this fucker had an alibi
+		Stepa (mistress, vote weight is 1) voted for Kolya (tec)
+		But this fucker had an alibi
+		Vanya (civil, vote weight is 1) voted for Misha (mafia)
+		Kolya (tec, vote weight is 1) voted for Misha (mafia)
+		Sasha (maniac, vote weight is 1) voted for Vanya (civil)
+		Misha (mafia, vote weight is 1) voted for Stepa (mistress)
+{'Stepa': 1, 'Misha': 2, 'Vanya': 1}
+	Misha was exiled
+Night 1
+	Stepa(mistress) choised Kolya(tec)
+	Kolya(tec) choised Sasha(maniac)
+			peaceful
+	Nastya(lawyer) choised Stepa(mistress)
+	Sasha(maniac) choised Stepa(mistress)
+Day 2
+Night 2
+		 Wins!!

@@ -1,0 +1,34 @@
+Game #7		0x000000000359B08
+
+		жора -- doc
+		ан€ -- mafia
+		бор€ -- civil
+		маща -- mafia
+		верусик -- tec
+		€йцо -- civil
+Day 0
+NO bodies were found this morning
+Night 0
+	жора(doc) choised ан€(mafia)
+	ан€(mafia) choised жора(doc)
+	верусик(tec) choised бор€(civil)
+			peaceful
+Day 1
+1 body was found this morning['жора'] 
+	Voting:
+		ан€ (mafia, vote weight is 1) voted for бор€ (civil)
+		бор€ (civil, vote weight is 1) voted for верусик (tec)
+		маща (mafia, vote weight is 1) voted for верусик (tec)
+		верусик (tec, vote weight is 1) voted for бор€ (civil)
+		€йцо (civil, vote weight is 1) voted for ан€ (mafia)
+{'верусик': 2, 'ан€': 1, 'бор€': 2}
+	No one was exiled
+NO bodies were found this morning
+Night 1
+	ан€(mafia) choised верусик(tec)
+	верусик(tec) choised ан€(mafia)
+			criminal
+Day 2
+1 body was found this morning['верусик'] 
+NO bodies were found this morning
+		criminal Wins!!	['ан€', 'маща']
