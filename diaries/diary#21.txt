@@ -1,0 +1,26 @@
+Game #21		0x0000013621D7A44
+
+		Sam -- doc
+		Ann -- tec
+		Max -- civil
+		Dan -- mafia
+		Ken -- mafia
+Day 0
+NO bodies were found this morning
+Night 0
+	Sam(doc) choised Sam(doc)
+	Dan(mafia) choised Sam(doc)
+	Ken(mafia) choised Ann(tec)
+	Ann(tec) choised Ken(mafia)
+			criminal
+Day 1
+NO bodies were found this morning
+Night 1
+	Sam(doc) choised Sam(doc)
+	Dan(mafia) choised Ann(tec)
+	Ken(mafia) choised Ann(tec)
+	Ann(tec) choised Dan(mafia)
+			criminal
+Day 2
+1 body was found this morning['Ann'] 
+		criminal Wins!!	['Dan', 'Ken']

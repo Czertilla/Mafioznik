@@ -1,0 +1,21 @@
+Game #23		0x0000022B5065A44
+
+		Sam -- tec
+		Ann -- mafia
+		Max -- mafia
+		Dan -- mistress
+		Ken -- doc
+		Tom -- civil
+Day 0
+NO bodies were found this morning
+Night 0
+	Dan(mistress) choised Ann(mafia)
+	Ken(doc) choised Sam(tec)
+	Ann(mafia) choised Ken(doc)
+Betrayal!?
+	Max(mafia) choised Sam(tec)
+	Sam(tec) choised Ken(doc)
+			peaceful
+Day 1
+1 body was found this morning['Ken'] 
+		criminal Wins!!	['Ann', 'Max', 'Dan']

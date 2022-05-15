@@ -1,0 +1,31 @@
+Game #22		0x000001EA63A4A44
+
+		Sam -- mafia
+		Ann -- civil
+		Max -- doc
+		Dan -- tec
+		Ken -- mafia
+Day 0
+NO bodies were found this morning
+Night 0
+	Max(doc) choised Max(doc)
+	Sam(mafia) choised Sam(mafia)
+Betrayal!?
+	Ken(mafia) choised Max(doc)
+	Dan(tec) choised Sam(mafia)
+			criminal
+Day 1
+1 body was found this morning['Sam'] 
+	Voting:
+		Ann (civil, vote weight is 1) voted for Max (doc)
+		Max (doc, vote weight is 1) voted for Dan (tec)
+		Dan (tec, vote weight is 1) voted for Ken (mafia)
+		Ken (mafia, vote weight is 1) voted for Dan (tec)
+{'Max': 1, 'Dan': 2, 'Ken': 1}
+	Dan was exiled
+Night 1
+	Max(doc) choised Ken(mafia)
+	Ken(mafia) choised Max(doc)
+Day 2
+1 body was found this morning['Max'] 
+		criminal Wins!!	['Ken']

@@ -1,0 +1,26 @@
+Game #20		0x00000177D983A44
+
+		Sam -- mafia
+		Ann -- tec
+		Max -- mafia
+		Dan -- doc
+		Ken -- civil
+Day 0
+NO bodies were found this morning
+Night 0
+	Dan(doc) choised Ken(civil)
+	Sam(mafia) choised Ken(civil)
+	Max(mafia) choised Ken(civil)
+	Ann(tec) choised Sam(mafia)
+			criminal
+Day 1
+NO bodies were found this morning
+Night 1
+	Dan(doc) choised Sam(mafia)
+	Sam(mafia) choised Ken(civil)
+	Max(mafia) choised Ann(tec)
+	Ann(tec) choised Dan(doc)
+			peaceful
+Day 2
+2 bodies were found this morning['Ken', 'Ann'] 
+		criminal Wins!!	['Sam', 'Max']

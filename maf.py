@@ -7,16 +7,16 @@ class Maf:
         self.roles = ["mafia",  
                       "tec", 
                       "doc",
-                      "lawyer",
                       "mistress",
-                      "bodyguard",
-                      "maniac",
                       "civil",
+                      "bodyguard",
+                      "lawyer",
+                      "maniac",
                       "mafia", "mafia", "civil", "civil", "mafia", "civil", 
                       "civil", "mafia", "civil", "civil", "mafia", "civil",
                       "civil", "mafia", "civil", "civil", "mafia", "civil", 
                       "civil", "mafia", "civil", "civil", "mafia"]
-        self.roles = ["mafia", "doc", "tec", "civil", "civil"]
+        # self.roles = ["mafia", "doc", "tec", "civil", "civil", "mafia"]
         note = open("note.txt", 'r+') 
         self.note = list(note)
         self.num = int(self.note[0]) + 1
@@ -26,7 +26,7 @@ class Maf:
             self.nicks.append(i[:-1]) 
         self.diary = open("diaries/diary#" + str(self.num) + ".txt", 'w')
         self.players = {}
-        self.roles = self.roles[:len(self.nicks)]        
+        self.roles = self.roles[:len(self.nicks)]    
         for nick in self.nicks:
             self.players[nick] = Player(nick, self.pickTHErole())
         self.game = True
@@ -45,11 +45,12 @@ class Maf:
             print(line)
         while self.game:
             self.date += 1
-            self.diary.write("Day " + str(self.date//2) + '\n')
-            print("\nDay " + str(self.date//2) + '\n')      
-            if self.game and self.rule.black_list:          
-                self.rule.play_day(self)    
+            line = "Day " + str(self.date//2) + '\n'
+            self.diary.write(line)
+            print(line)      
             self.rule.checkTHEcorpses(self)
+            if self.game and self.rule.castes['ghost']:          
+                self.rule.play_day(self)    
             self.date += 1                 
             if self.game:      
                 self.diary.write("Night " + str(self.date//2) + '\n')
@@ -59,9 +60,10 @@ class Maf:
                          str(self.rule.castes[self.rule.winner]))        
     
     def end(self):
+        self.note[0] = str(self.note[0]) + '\n'
         self.game = False
         file = open("note.txt", 'w+')
         for line in self.note:
-            file.write(str(line)+ '\n')
+            file.write(str(line))
         file.close()    
         self.diary.close()    

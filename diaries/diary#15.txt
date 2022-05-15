@@ -1,0 +1,25 @@
+Game #15		0x000001832C45A44
+
+		Sam -- mafia
+		Ann -- tec
+		Max -- civil
+		Dan -- doc
+Day 0
+Night 0
+	Dan(doc) choised Ann(tec)
+	Sam(mafia) choised Dan(doc)
+	Ann(tec) choised Sam(mafia)
+			criminal
+Day 1
+1 body was found this morning['Dan'] 
+	Voting:
+		Sam (mafia, vote weight is 1) voted for Ann (tec)
+		Ann (tec, vote weight is 1) voted for Sam (mafia)
+		Max (civil, vote weight is 1) voted for Ann (tec)
+{'Ann': 2, 'Sam': 1}
+	Ann was exiled
+Night 1
+	Sam(mafia) choised Max(civil)
+Day 2
+1 body was found this morning['Max'] 
+		criminal Wins!!	['Sam']

@@ -1,0 +1,17 @@
+Game #11		0x000001798649A44
+
+		Sam -- civil
+		Ann -- tec
+		Max -- doc
+		Dan -- mafia
+Day 0
+NO bodies were found this morning
+Night 0
+	Max(doc) choised Sam(civil)
+	Dan(mafia) choised Dan(mafia)
+	Ann(tec) choised Dan(mafia)
+			criminal
+Day 1
+1 body was found this morning['Dan'] 
+NO bodies were found this morning
+		peaceful Wins!!	['Sam', 'Ann', 'Max']

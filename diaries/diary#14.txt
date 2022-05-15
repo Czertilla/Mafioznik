@@ -1,0 +1,28 @@
+Game #14		0x000002D36B64A44
+
+		Sam -- tec
+		Ann -- doc
+		Max -- mafia
+		Dan -- civil
+Day 0
+NO bodies were found this morning
+Night 0
+	Ann(doc) choised Sam(tec)
+	Max(mafia) choised Ann(doc)
+	Sam(tec) choised Max(mafia)
+			criminal
+Day 1
+1 body was found this morning['Ann'] 
+	Voting:
+		Sam (tec, vote weight is 1) voted for Max (mafia)
+		Max (mafia, vote weight is 1) voted for Sam (tec)
+		Dan (civil, vote weight is 1) voted for Sam (tec)
+{'Max': 1, 'Sam': 2}
+	Sam was exiled
+NO bodies were found this morning
+Night 1
+	Max(mafia) choised Dan(civil)
+Day 2
+1 body was found this morning['Dan'] 
+NO bodies were found this morning
+		criminal Wins!!	['Max']

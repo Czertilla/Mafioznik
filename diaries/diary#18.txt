@@ -1,0 +1,18 @@
+Game #18		0x000001DF4415A44
+
+		Sam -- civil
+		Ann -- mistress
+		Max -- tec
+		Dan -- doc
+		Ken -- mafia
+Day 0
+NO bodies were found this morning
+Night 0
+	Ann(mistress) choised Dan(doc)
+	Dan(doc) choised Dan(doc)
+	Ken(mafia) choised Ann(mistress)
+	Max(tec) choised Dan(doc)
+			criminal
+Day 1
+1 body was found this morning['Dan'] 
+		criminal Wins!!	['Ann', 'Ken']

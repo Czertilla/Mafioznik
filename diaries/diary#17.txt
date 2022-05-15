@@ -1,0 +1,27 @@
+Game #17		0x000002B3EC69A44
+
+		Sam -- tec
+		Ann -- mafia
+		Max -- civil
+		Dan -- doc
+Day 0
+NO bodies were found this morning
+Night 0
+	Dan(doc) choised Sam(tec)
+	Ann(mafia) choised Dan(doc)
+	Sam(tec) choised Dan(doc)
+			peaceful
+Day 1
+1 body was found this morning['Dan'] 
+	Voting:
+		Sam (tec, vote weight is 1) voted for Ann (mafia)
+		Ann (mafia, vote weight is 1) voted for Sam (tec)
+		Max (civil, vote weight is 1) voted for Ann (mafia)
+{'Ann': 2, 'Sam': 1}
+	Ann was exiled
+Night 1
+	Sam(tec) choised Sam(tec)
+			peaceful
+Day 2
+NO bodies were found this morning
+		peaceful Wins!!	['Sam', 'Max']

@@ -6,10 +6,10 @@ class Rules:
     def __init__(self, outer):
         #settings---------------------------------------------------------------
         self.AHFM =                                                        True
-        self.mistress =                                                    True
-        self.lawyer =                                                      True
-        self.bodyguard =                                                   True
-        self.maniac =                                                      True
+        self.mistress = 'mistress' in outer.roles
+        self.lawyer =   'lawyer' in outer.roles
+        self.bodyguard ='bodyguard' in outer.roles  
+        self.maniac =   'maniac' in outer.roles         
         #-----------------------------------------------------------------------
         self.black_list = []
         self.castes = {"peaceful": [], "criminal": [], 
@@ -35,6 +35,8 @@ class Rules:
     
     def checkTHElucker(self, d):
         dic = copy.deepcopy(d)
+        if not dic:
+            return "No one"
         m = max(dic.items(), key=lambda x: x[1])
         if len(dic.keys()) == 1:
             return m[0]
@@ -55,7 +57,6 @@ class Rules:
         return ''
 
     def play_day(self, outer):
-        self.checkTHEcorpses(outer)
         self.black_list = []
         self.winner = self.checkTHEwinner(outer.players)
         if self.winner:
@@ -64,36 +65,35 @@ class Rules:
         outer.diary.write("\tVoting:\n")
         lucker = ''
         cont = False
-        while not (lucker and cont):
+        while not cont:
             table = {}
             for turn in outer.players.values():
                 if turn.caste != "ghost":
                     choise = input(turn.nick + '?  ')
-                    check = choise in outer.players
-                    if check:
-                        check = outer.players[choise].caste != "ghost"
-                    while not check:
-                        choise = input("\tYou cannot vote for"+ \
+                    if choise:
+                        check = choise in outer.players and \
+                            outer.players[choise].caste != "ghost"
+                        while not check:
+                            choise = input("\tYou cannot vote for"+ \
                                        "this person, so? ")
-                        check = choise in outer.players
-                        if check:
-                            check = outer.players[choise].caste != "ghost"
-                    choise = outer.players[choise]    
-                    line = "\t\t"+ str(turn.nick)+ " ("+ str(turn.role)\
+                            check = choise in outer.players and \
+                                        outer.players[choise].caste != "ghost"
+                        choise = outer.players[choise]    
+                        line = "\t\t"+ str(turn.nick)+ " ("+ str(turn.role)\
                                 +", vote weight is "\
                                 + str(turn.vote_weight)\
                                 +") voted for "+ str(choise.nick)+ " ("\
                                 + str(choise.role)+ ")\n"
-                    outer.diary.write(line)
-                    print(line, end='')
-                    if choise.nick in table and not choise.alibi:
-                        table[choise.nick] += turn.vote_weight
-                    elif not choise.alibi:
-                        table[choise.nick] = turn.vote_weight
-                    else:
-                        line = "\t\tBut this fucker had an alibi\n"
                         outer.diary.write(line)
                         print(line, end='')
+                        if choise.nick in table and not choise.alibi:
+                            table[choise.nick] += turn.vote_weight
+                        elif not choise.alibi:
+                            table[choise.nick] = turn.vote_weight
+                        else:
+                            line = "\t\tBut this fucker had an alibi\n"
+                            outer.diary.write(line)
+                            print(line, end='')
             lucker = self.checkTHElucker(table)
             line = str(table)+ "\n\t"+ lucker+ " was exiled\n"    
             outer.diary.write(line)
@@ -126,14 +126,12 @@ class Rules:
         for turn in self.order:
             if turn and turn.caste != "ghost": 
                 turn.target = input(str(turn.nick)+ " ?  ")
-                check = turn.target in outer.players
-                if check:
-                    check = outer.players[turn.target].caste != "ghost"
+                check = turn.target in outer.players and outer.players[turn.\
+                    target].caste != "ghost"
                 while not check: 
                     turn.target = input(str(turn.nick)+ " !?  ")
-                    check = turn.target in outer.players
-                    if check:
-                        check = outer.players[turn.target].caste != "ghost"
+                    check = turn.target in outer.players and outer.players[turn.\
+                        target].caste != "ghost"
                 turn.target = outer.players[turn.target]    
                 line = '\t'+ str(turn.nick)+ '('+ str(turn.role)+ ") choised "+ \
                     str(turn.target.nick)+ '('+ str(turn.target.role)+ ')\n'
@@ -165,7 +163,7 @@ class Rules:
     def night_event(self, turn, outer):
         self.targets = {}
         opt = {
-            "mafia": self.kill, # conspare not work yet 
+            "mafia": self.conspire, # conspire not work yet 
             "maniac": self.kill, 
             "doc": self.heal,
             "tec": self.detect,
@@ -179,22 +177,23 @@ class Rules:
             print(line, end='')                 
     
     def conspire(self, turn):
+        if turn.target.role == "mafia" or turn.erection:
+            self.kill(turn)
+            return "Betrayal!?\n"
         self.targets[turn.target.nick] = turn.target
         if turn.target.nick in self.table:
             self.table[turn.target.nick] += int(not turn.erection)
         else:
             self.table[turn.target.nick] = int(not turn.erection)
         if sum(self.table.values()) == self.mafia_count:
-            lucker = self.targets[self.checkTHElucker(self.table)]
-            if lucker:
+            lucker = self.checkTHElucker(self.table)
+            if lucker and lucker != 'No one':
+                lucker = self.targets[lucker]
                 turn.target = lucker
                 self.kill(turn)
     
     def kill(self, turn):
-        if turn.caste != "ghost" and not(turn.target.erection):
-            turn.target.hp -= int(bool(turn.target.hp))
-            self.black_list.append(turn.target)
-        elif turn.caste != "ghost" and turn.target is self.mistress and not\
+        if turn.caste != "ghost" and turn.target is self.mistress and not\
              turn.target.erection:
             turn.target.hp -= int(bool(turn.target.hp))
             self.black_list.append(turn.target)            
@@ -202,6 +201,9 @@ class Rules:
             self.black_list.append(turn.target.target)
             if self.mistress.target is turn:
                 turn.hp += 1
+        elif turn.caste != "ghost" and not(turn.target.erection):
+            turn.target.hp -= int(bool(turn.target.hp))
+            self.black_list.append(turn.target)
     
     def heal(self, turn):
         if turn.caste != "ghost" and not turn.erection:

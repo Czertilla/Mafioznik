@@ -1,0 +1,35 @@
+Game #16		0x000001CD3846A44
+
+		Sam -- civil
+		Ann -- tec
+		Max -- doc
+		Dan -- mafia
+Day 0
+NO bodies were found this morning
+	Voting:
+		Sam (civil, vote weight is 1) voted for Ann (tec)
+		Max (doc, vote weight is 1) voted for Max (doc)
+		Dan (mafia, vote weight is 1) voted for Sam (civil)
+{'Ann': 1, 'Max': 1, 'Sam': 1}
+	No one was exiled
+Night 0
+	Max(doc) choised Sam(civil)
+	Dan(mafia) choised Sam(civil)
+	Ann(tec) choised Max(doc)
+			peaceful
+Day 1
+NO bodies were found this morning
+	Voting:
+		Sam (civil, vote weight is 1) voted for Dan (mafia)
+		Ann (tec, vote weight is 1) voted for Dan (mafia)
+		Max (doc, vote weight is 1) voted for Dan (mafia)
+		Dan (mafia, vote weight is 1) voted for Sam (civil)
+{'Dan': 3, 'Sam': 1}
+	Dan was exiled
+Night 1
+	Max(doc) choised Sam(civil)
+	Ann(tec) choised Ann(tec)
+			peaceful
+Day 2
+NO bodies were found this morning
+		peaceful Wins!!	['Sam', 'Ann', 'Max']

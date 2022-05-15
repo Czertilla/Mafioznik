@@ -1,0 +1,53 @@
+Game #19		0x000001C5D867A44
+
+		Sam -- mistress
+		Ann -- tec
+		Max -- civil
+		Dan -- mafia
+		Ken -- doc
+Day 0
+NO bodies were found this morning
+Night 0
+	Sam(mistress) choised Ken(doc)
+	Ken(doc) choised Ken(doc)
+	Dan(mafia) choised Dan(mafia)
+	Ann(tec) choised Sam(mistress)
+			criminal
+Day 1
+1 body was found this morning['Dan'] 
+	Voting:
+		Sam (mistress, vote weight is 1) voted for Ann (tec)
+		Ann (tec, vote weight is 1) voted for Sam (mistress)
+		Max (civil, vote weight is 1) voted for Ken (doc)
+		Ken (doc, vote weight is 0) voted for Sam (mistress)
+{'Ann': 1, 'Sam': 1, 'Ken': 1}
+	No one was exiled
+Night 1
+	Sam(mistress) choised Ann(tec)
+	Ken(doc) choised Max(civil)
+	Ann(tec) choised Sam(mistress)
+			peaceful
+Day 2
+NO bodies were found this morning
+	Voting:
+		Sam (mistress, vote weight is 1) voted for Ann (tec)
+		Ann (tec, vote weight is 0) voted for Sam (mistress)
+		Max (civil, vote weight is 1) voted for Ann (tec)
+		Ken (doc, vote weight is 1) voted for Sam (mistress)
+{'Ann': 2, 'Sam': 1}
+	Ann was exiled
+Night 2
+	Sam(mistress) choised Max(civil)
+	Ken(doc) choised Sam(mistress)
+Day 3
+NO bodies were found this morning
+	Voting:
+		Sam (mistress, vote weight is 1) voted for Ken (doc)
+		Max (civil, vote weight is 0) voted for Sam (mistress)
+{'Ken': 1, 'Sam': 0}
+	Ken was exiled
+Night 3
+	Sam(mistress) choised Max(civil)
+Day 4
+NO bodies were found this morning
+		criminal Wins!!	['Sam']

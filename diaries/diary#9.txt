@@ -1,0 +1,30 @@
+Game #9		0x000001F0C466A44
+
+		Max -- mafia
+		Dan -- tec
+		Ann -- doc
+		Sam -- civil
+Day 0
+NO bodies were found this morning
+Night 0
+	Ann(doc) choised Sam(civil)
+	Max(mafia) choised Ann(doc)
+	Dan(tec) choised Ann(doc)
+			peaceful
+Day 1
+1 body was found this morning['Ann'] 
+	Voting:
+		Max (mafia, vote weight is 1) voted for Sam (civil)
+		Dan (tec, vote weight is 1) voted for Sam (civil)
+		Sam (civil, vote weight is 1) voted for Max (mafia)
+{'Sam': 2, 'Max': 1}
+	Sam was exiled
+NO bodies were found this morning
+Night 1
+	Max(mafia) choised Dan(tec)
+	Dan(tec) choised Max(mafia)
+			criminal
+Day 2
+1 body was found this morning['Dan'] 
+NO bodies were found this morning
+		criminal Wins!!	['Max']
