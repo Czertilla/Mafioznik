@@ -1,5 +1,9 @@
 from maf import Maf
+from setup import SetUp
 
-Game = Maf()
-Game.start()
-Game.end()  
+SetUp()
+Game = input("Press <<Enter>> to start ")
+if not Game:
+    Game = Maf()
+    Game.start()
+    Game.end()  
