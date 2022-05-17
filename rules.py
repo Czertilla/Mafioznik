@@ -75,7 +75,7 @@ class Rules:
                             outer.players[choise].caste != "ghost"
                         while not check:
                             choise = input("\tYou cannot vote for"+ \
-                                       "this person, so? ")
+                                       " this person, so? ")
                             check = choise in outer.players and \
                                         outer.players[choise].caste != "ghost"
                         choise = outer.players[choise]    
@@ -179,7 +179,7 @@ class Rules:
     def conspire(self, turn):
         if turn.target.role == "mafia" or turn.erection:
             self.kill(turn)
-            return "Betrayal!?\n"
+            return "\t\tBetrayal!?\n"
         self.targets[turn.target.nick] = turn.target
         if turn.target.nick in self.table:
             self.table[turn.target.nick] += int(not turn.erection)

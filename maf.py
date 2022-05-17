@@ -7,16 +7,18 @@ class Maf:
         self.roles = ["mafia",  
                       "tec", 
                       "doc",
-                      "mistress",
                       "civil",
-                      "bodyguard",
+                      "mafia",
+                      "civil",
+                      "mistress",
                       "lawyer",
                       "maniac",
+                      "bodyguard",
                       "mafia", "mafia", "civil", "civil", "mafia", "civil", 
                       "civil", "mafia", "civil", "civil", "mafia", "civil",
                       "civil", "mafia", "civil", "civil", "mafia", "civil", 
                       "civil", "mafia", "civil", "civil", "mafia"]
-        # self.roles = ["mafia", "doc", "tec", "civil", "civil", "mafia"]
+        # self.roles = ["mafia", "doc", "tec"] #uncomment to init custom roles
         note = open("note.txt", 'r+') 
         self.note = list(note)
         self.num = int(self.note[0]) + 1

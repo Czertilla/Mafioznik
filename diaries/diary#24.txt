@@ -1,0 +1,29 @@
+Game #24		0x000001D9C41B7D6
+
+		Ann -- civil
+		Dug -- bodyguard
+		Max -- mafia
+		Amy -- doc
+		Pit -- mafia
+		Tom -- mistress
+		Jeb -- tec
+		Dan -- lawyer
+		Ken -- maniac
+		Sam -- mafia
+Day 0
+NO bodies were found this morning
+Night 0
+	Tom(mistress) choised Pit(mafia)
+	Amy(doc) choised Max(mafia)
+	Max(mafia) choised Dug(bodyguard)
+	Pit(mafia) choised Dug(bodyguard)
+Betrayal!?
+	Sam(mafia) choised Ken(maniac)
+	Jeb(tec) choised Tom(mistress)
+			criminal
+	Dan(lawyer) choised Amy(doc)
+	Ken(maniac) choised Jeb(tec)
+	Dug(bodyguard) choised Sam(mafia)
+Day 1
+2 bodies were found this morning['Dug', 'Jeb'] 
+		criminal Wins!!	['Max', 'Pit', 'Tom', 'Sam']
