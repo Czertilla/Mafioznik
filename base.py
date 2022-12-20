@@ -1,85 +1,54 @@
 import sqlite3
+import clock
 
 class Base:
-    def __init__(self):
-        self.users = {}
-        try:
-            sqlite_connection = sqlite3.connect('bases/users.db')
-            cursor = sqlite_connection.cursor()
-            print("Подключен к SQLite")
+    def __init__(self, code):
+        self.mode = {'u': "profiles", 'g': "sessions"}[code]
+        if self.mode == 'profiles':
+            self.con = sqlite3.connect("db/users.db", check_same_thread=False)
+            self.cur = self.con.cursor()
+        elif self.mode == 'sessions':
+            self.con = sqlite3.connect("db/games.db", check_same_thread=False)
+            self.cur = self.con.cursor()
+    
+    def verify(self, object):
+        id = object.id
+        id = self.cur.execute(f"SELECT * FROM {self.mode} WHERE id=?", (id, ))
+        return not id.fetchone() is None
 
-            sqlite_select_query = """SELECT * from sqlitedb_developers"""
-            cursor.execute(sqlite_select_query)
-            print("Чтение")
-            records = cursor.fetchall()
-            for row in records:
-                ID = row[0]
-                self.users[ID] = {
-                    "ID": ID,
-                    "username": row[1],
-                    "first_name": row[2],
-                    "last_name": row[3],
-                    "language_code": row[4],
-                    "session": row[5],
-                    "kills": row[6],
-                    "deaths": row[7],
-                    "complicities": row[8],
-                    "rescues": row[9],
-                    "wins": row[10],
-                    "defeats": row[11],
-                    "exiles": row[12],
-                    "reputation": row[13],
-                    "banned": row[14],
-                    "registered": row[15],
-                    "status": row[16],
-                    "rights_lvl": row[17]
-                }
+    def sign_in(self, user):
+        if self.verify(user):
+            return f"С возвращением, {user.first_name}!"
+        else:
+            self.new_profile(user)
+            return f"Добро пожаловать, {user.first_name}!"
+    
+    def new_profile(self, user):
+        id = user.id
+        username = user.username
+        first_name = user.first_name
+        last_name = user.last_name
+        language_code = user.language_code
+        registered = clock.now()
+        if id == 715648962:
+            status = "god"
+        else:
+            status = "simple"
+        self.cur.execute("INSERT INTO profiles (id, username, first_name, last_name,\
+            language_code, status, reputation, registered) VALUES \
+            (?, ?, ?, ?, ?, ?, ?, ?)",
+            (
+                id, 
+                username, 
+                first_name, 
+                last_name, 
+                language_code,
+                status, 
+                0.0, 
+                registered
+            ))
+        self.con.commit()
 
-            cursor.close()
-
-        except sqlite3.Error as error:
-            print("Ошибка при работе с SQLite", error)
-        finally:
-            if sqlite_connection:
-                sqlite_connection.close()
-                print("Соединение с SQLite закрыто")
-
-        self.games = {}
-        try:
-            sqlite_connection = sqlite3.connect('bases/games.db')
-            cursor = sqlite_connection.cursor()
-            print("Подключен к SQLite")
-
-            sqlite_select_query = """SELECT * from sqlitedb_developers"""
-            cursor.execute(sqlite_select_query)
-            print("Чтение")
-            records = cursor.fetchall()
-            for row in records:
-                ID = row[0]
-                self.games[ID] = {
-                    "ID": ID,
-                    "status": row[1],
-                    "users": row[2],
-                    "last_name": row[3],
-                    "language_code": row[4],
-                    "session": row[5],
-                    "kills": row[6],
-                    "deaths": row[7],
-                    "complicities": row[8],
-                    "rescues": row[9],
-                    "wins": row[10],
-                    "defeats": row[11],
-                    "exiles": row[12],
-                    "reputation": row[13],
-                    "banned": row[14],
-                    "registered": row[15],
-                }
-
-            cursor.close()
-
-        except sqlite3.Error as error:
-            print("Ошибка при работе с SQLite", error)
-        finally:
-            if sqlite_connection:
-                sqlite_connection.close()
-                print("Соединение с SQLite закрыто")
+    def discard_profile(self, id):
+        self.cur.execute("DELETE FROM profiles WHERE id =?", (id, ))
+        self.con.commit()
