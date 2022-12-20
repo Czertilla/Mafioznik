@@ -3,7 +3,7 @@ class SetUp:
         y = '\033[1;33;40m'
         n = '\033[0;37;40m'
         g = '\033[1;32;40m'
-        com = input("print 'help' to help\nWant to setup Game? ")
+        com = input("print 'help' to "+y+"help"+n+"\nWant to setup Game? ")
         while com:
             if 'help' in com:
                 print(y+"'check' to show data about game\n\
@@ -25,7 +25,7 @@ You also can just press <<Enter>> to complete setup"+n)
         y = '\033[1;33;40m'
         n = '\033[0;37;40m'
         com = input("---Edit LOP mod---\n\
-    print 'help' to help\n    ")
+    print 'help' to "+y+"help"+n+"\n    ")
         lop = []
         with open('note.txt', 'r') as f:
             rl = f.readlines()
@@ -36,8 +36,8 @@ You also can just press <<Enter>> to complete setup"+n)
             com = list(map(str, com.split('/')))
             com, players = com[0], com[1:]
             if 'help' in com:
-                print(y+"\tUse this form to edit list of players (futher LOP):\n\
-    '[comand]/[Nick]'\n\
+                print(y+"    Use this form to edit list of players (futher LOP):\n\
+        '[comand]/[Nick]'\n\
     For example:'pop/Alex' - \
 this comand remove Alex from LOP\n\
     available commands:\n\

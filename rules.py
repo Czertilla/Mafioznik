@@ -4,13 +4,13 @@ from random import randint
 
 class Rules:    
     def __init__(self, outer):
-        #settings---------------------------------------------------------------
-        self.AHFM =                                                        True
+        #settings---------------------------------
+        self.AHFM =     True
         self.mistress = 'mistress' in outer.roles
         self.lawyer =   'lawyer' in outer.roles
         self.bodyguard ='bodyguard' in outer.roles  
         self.maniac =   'maniac' in outer.roles         
-        #-----------------------------------------------------------------------
+        #-----------------------------------------
         self.black_list = []
         self.castes = {"peaceful": [], "criminal": [], 
                        "renegade": [], "ghost": []}
@@ -163,7 +163,7 @@ class Rules:
     def night_event(self, turn, outer):
         self.targets = {}
         opt = {
-            "mafia": self.conspire, # conspire not work yet 
+            "mafia": self.conspire, 
             "maniac": self.kill, 
             "doc": self.heal,
             "tec": self.detect,
