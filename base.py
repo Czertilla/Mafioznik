@@ -5,17 +5,29 @@ import phrases
 class Base:
     def __init__(self, code):
         self.mode = {'u': "profiles", 'g': "sessions"}[code]
-        if self.mode == 'profiles':
-            self.colums = ('id', 'username', 'first_name', 'last_name',
-             'language_code', 'status', 'reputation', 'registered', 'curent server', 'nav')
-            self.con = sqlite3.connect("db/users.db", check_same_thread=False)
-            self.cur = self.con.cursor()
-        elif self.mode == 'sessions':
-            self.con = sqlite3.connect("db/games.db", check_same_thread=False)
-            self.cur = self.con.cursor()
+        try:
+            if self.mode == 'profiles':
+                self.colums = ('id', 'username', 'first_name', 'last_name',
+                'language_code', 'status', 'reputation', 'registered', 'curent server', 'nav')
+                self.con = sqlite3.connect("db/users.db", check_same_thread=False)
+            elif self.mode == 'sessions':
+                self.con = sqlite3.connect("db/games.db", check_same_thread=False)
+        except Exception as e:
+                return f"An attempt to connect to the database {self.mode} failed: \n\t {e}" 
+
+    def execute(self, request, values):
+        try:
+            with sqlite3.connect("db/users.db", timeout=30) as con:
+                cur = con.cursor()
+                result = cur.execute(request, values)
+                con.commit()
+            return result
+        except Exception as e:
+            print(f"Some exception: {e}")
+            self.execute(request, values)
 
     def fetc(self, id):
-        data = self.cur.execute(f"SELECT * FROM {self.mode} WHERE id=?", (id, ))
+        data = self.execute(f"SELECT * FROM {self.mode} WHERE id=?", (id, ))
         data = data.fetchone()
         answer = {}
         r = 0
@@ -25,13 +37,19 @@ class Base:
         return answer
     
     def update(self, id, col, value):
-        self.cur.execute(f"UPDATE {self.mode} SET {col} =? WHERE id =?", (value, id))
-        self.con.commit()
+        self.execute(f"UPDATE {self.mode} SET {col} =? WHERE id =?", (value, id))
 
     def verify(self, object):
         id = object.id
-        id = self.cur.execute(f"SELECT * FROM {self.mode} WHERE id=?", (id, ))
+        id = self.execute(f"SELECT * FROM {self.mode} WHERE id=?", (id, ))
         return not id.fetchone() is None
+    
+    def check_access_lvl(self, id, lvl=0):
+        user = self.fetc(id)
+        if lvl >= 100:
+            return user["status"] == "god"
+        if lvl >= 10:
+            return user["status"] != "bunned"
 
     #only profiles
     def sign_in(self, user):
@@ -56,7 +74,7 @@ class Base:
             status = "god"
         else:
             status = "simple"
-        self.cur.execute("INSERT INTO profiles (id, username, first_name, last_name,\
+        self.execute("INSERT INTO profiles (id, username, first_name, last_name,\
             language_code, status, reputation, registered) VALUES \
             (?, ?, ?, ?, ?, ?, ?, ?)",
             (
@@ -69,7 +87,6 @@ class Base:
                 0.0, 
                 registered
             ))
-        self.con.commit()
     
     #only profiles    
     def update_profile(self, id, request=dict):
@@ -80,8 +97,7 @@ class Base:
                     self.update(id, col, user[col])
         for col in request.keys():
             print(f"UPDATE profiles SET {col} = {request[col]} WHERE id =?", (id, ))
-            self.cur.execute(f"UPDATE profiles SET {col} =? WHERE id =?", (request[col], id))
-            self.con.commit()
+            self.execute(f"UPDATE profiles SET {col} =? WHERE id =?", (request[col], id))
         reputation = self.fetc(id)['reputation']
         status = self.fetc(id)['status']
         if reputation < -10 and status != 'banned':
@@ -93,5 +109,10 @@ class Base:
     def discard_profile(self, id):
         if id == 715648962:
             return "БОГ БЕССМЕРТЕН"
-        self.cur.execute("DELETE FROM profiles WHERE id =?", (id, ))
-        self.con.commit()
+        self.execute("DELETE FROM profiles WHERE id =?", (id, ))
+
+if __name__ == "__main__":
+    debug = Base("u")
+    debug.fetc(715648962)
+
+    
