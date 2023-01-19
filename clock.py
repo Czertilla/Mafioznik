@@ -10,3 +10,4 @@ def wait(s=0.1):
     time.sleep(s)
 
 print(now())
+print(time.time())

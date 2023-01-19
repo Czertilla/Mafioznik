@@ -9,9 +9,10 @@ class Base:
             if self.mode == 'profiles':
                 self.colums = ('id', 'username', 'first_name', 'last_name',
                 'language_code', 'status', 'reputation', 'registered', 'curent server', 'nav')
-                self.con = sqlite3.connect("db/users.db", check_same_thread=False)
+                # self.con = sqlite3.connect("db/users.db", check_same_thread=False)
             elif self.mode == 'sessions':
-                self.con = sqlite3.connect("db/games.db", check_same_thread=False)
+                self.colums = ('id', 'status', 'key', 'players', 'chat_link', 'setup_code', 'started', 'closed')
+                # self.con = sqlite3.connect("db/games.db", check_same_thread=False)
         except Exception as e:
                 return f"An attempt to connect to the database {self.mode} failed: \n\t {e}" 
 

@@ -35,33 +35,69 @@ def helping (nav):
             'ru': f"Вы находитесь в лобби и скоро начнете играть в Мафию. \n/info - Просмотреть информацию о лобби\n/chat - Получить ссылку чата\n/quit - Выйти из лобби",
             'en': f"You are in the lobby and will start playing Mafia soon. \n/info - View information about the lobby\n/chat - Get a chat link\n/quit - Quit the lobby"
         }
+    
+def main_menu(but=''):
+    buts = {
+        '': {
+            'ru': 'Главное меню',
+            'en': 'Main menu'
+        },
+        'connect': {
+            'ru': 'Присоедениться к лобби',
+            'en': 'Join lobby'
+        },
+        'create': {
+            'ru': 'Создать лобби',
+            'en': 'Create a lobby'
+        },
+        'profile': {
+            'ru': 'Меню профиля',
+            'en': 'Profile menu'
+        }
+    }
+    return buts[but]
 
 def profile_menu(but=''):
-    if but == '':
-        return {
+    buts = {
+        '': {
             'ru': "\tМеню профиля",
             'en': "\tProfile menu"
-        }
-    if but == 'update':
-        return {
+        },
+        'update':
+        {
             'ru': "Обновить данные профиля",
             'en': "Update profile information"
-        }
-    if but == "stats":
-        return {
+        },
+        "stats":
+        {
             'ru': "Статистика",
             'en': "Statistics"
-        }
-    if but == "language":
-        return {
+        },
+        "language":
+        {
             'ru': "Язык",
             'en': "Language"
-        }
-    if but == "discard":
-        return {
+        },
+        "discard":
+        {
             'ru': "Удалить профиль",
             'en': "Discard profile"
         }
+    }
+    return buts[but]
+
+def commit(case):
+    cases = {
+        'cl': {
+            'ru': 'Язык сменен',
+            'en': 'Language changed'
+        },
+        'pu': {
+            'ru': 'Профиль обновлен',
+            'en': 'Profile updated'
+        }
+    }
+    return cases[case]
 
 def stats(user):
     return {

@@ -39,7 +39,16 @@ class Mafioznik(telebot.TeleBot):
             code = call.data.split()[0]
             id = call.message.chat.id
             users_data.update_profile(id, {'language_code': code})
+            self.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
+            self.send_message(id, phrases.commit('cl')[code])
 
+        @self.message_handler(commands=["connect"])
+        def connect(message):
+            self.send_message(message.from_user.id, 'Currently not available')
+        
+        @self.message_handler(commands=["create"])
+        def create(message):
+            self.send_message(message.from_user.id, 'Currently not available')
 
         @self.message_handler(commands=["main"])
         def main(message):
@@ -47,6 +56,25 @@ class Mafioznik(telebot.TeleBot):
             user = users_data.fetc(id)
             request = {'nav': 'mm'}
             users_data.update_profile(id, request)
+            lang = user['language_code']
+            menu = telebot.types.InlineKeyboardMarkup()
+            menu.add(telebot.types.InlineKeyboardButton(text=phrases.main_menu("connect")[lang],\
+                callback_data="connect mm"))
+            menu.add(telebot.types.InlineKeyboardButton(text=phrases.main_menu("create")[lang],\
+                callback_data="create mm"))
+            menu.add(telebot.types.InlineKeyboardButton(text=phrases.main_menu("profile")[lang],\
+                callback_data="profile mm"))
+            self.send_message(user['id'], phrases.main_menu()[lang], reply_markup=menu)
+
+        @self.callback_query_handler(func=lambda call:'mm' in call.data)
+        def main_menu_interactive(call):
+            command = call.data.split()[0]
+            {
+                'connect': connect,
+                'create': create,
+                'profile': profile
+            }[command](call)
+            self.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
 
         @self.message_handler(commands=["profile"])
         def profile(message):
@@ -75,6 +103,7 @@ class Mafioznik(telebot.TeleBot):
                 'language': language,
                 'discard': discard
             }[command](call)
+            self.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
 
         @self.message_handler(commands=["stats"])
         def stats(message):
@@ -87,6 +116,8 @@ class Mafioznik(telebot.TeleBot):
         def update(message):
             user = message.from_user
             users_data.update_profile(user.id, {'user': user})
+            user = users_data.fetc(user.id)
+            self.send_message(user['id'], phrases.commit('pu')[user['language_code']])
 
         @self.message_handler(commands=["discard"])
         def discard(message):
