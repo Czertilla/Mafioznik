@@ -3,22 +3,25 @@ import clock
 import phrases
 
 class Base:
-    def __init__(self, code):
+    def __init__(self, code, outer=None):
         self.mode = {'u': "profiles", 'g': "sessions"}[code]
+        self.outer = outer
         try:
             if self.mode == 'profiles':
                 self.colums = ('id', 'username', 'first_name', 'last_name',
                 'language_code', 'status', 'reputation', 'registered', 'curent server', 'nav')
+                self.base_name = 'users'
                 # self.con = sqlite3.connect("db/users.db", check_same_thread=False)
             elif self.mode == 'sessions':
-                self.colums = ('id', 'status', 'key', 'players', 'chat_link', 'setup_code', 'started', 'closed')
+                self.colums = ('id', 'host', 'status', 'key', 'players', 'chat_link', 'setup_code', 'started', 'closed')
+                self.base_name = 'games'
                 # self.con = sqlite3.connect("db/games.db", check_same_thread=False)
         except Exception as e:
                 return f"An attempt to connect to the database {self.mode} failed: \n\t {e}" 
 
     def execute(self, request, values):
         try:
-            with sqlite3.connect("db/users.db", timeout=30) as con:
+            with sqlite3.connect(f"db/{self.base_name}.db", timeout=30) as con:
                 cur = con.cursor()
                 result = cur.execute(request, values)
                 con.commit()
@@ -37,12 +40,35 @@ class Base:
             r += 1
         return answer
     
+    def search(self, what, where=False, only_whole=False, sample=False):
+        if not where:
+            where = self.mode
+        if not sample:
+            sample = self.colums
+        elif type(sample) == str:
+            sample = (sample, )
+        result = {'whole': [], 'part': []}
+        for col in sample:
+            whole = self.execute(f"SELECT * FROM {where} WHERE {col}=?", (what, ))
+            whole = whole.fetchall()
+            while len(whole) > 0 and not whole is None:
+                result['whole'].append(whole.pop(0))
+            if not only_whole:
+                part = self.execute(f"SELECT * FROM {where} WHERE {col} LIKE %?%", (what, ))
+                part = part.fetchall()
+                while len(part) > 0 and not part is None:
+                    if not part in result['whole']:
+                        result['part'].append(part[0])
+        return result
+    
     def update(self, id, col, value):
         self.execute(f"UPDATE {self.mode} SET {col} =? WHERE id =?", (value, id))
 
-    def verify(self, object):
-        id = object.id
-        id = self.execute(f"SELECT * FROM {self.mode} WHERE id=?", (id, ))
+    def verify(self, id, loc=None):
+        if loc is None:
+            loc = self.mode
+        id = id
+        id = self.execute(f"SELECT * FROM {loc} WHERE id=?", (id, ))
         return not id.fetchone() is None
     
     def check_access_lvl(self, id, lvl=0):
@@ -54,7 +80,7 @@ class Base:
 
     #only profiles
     def sign_in(self, user):
-        if self.verify(user):
+        if self.verify(user.id):
             self.update_profile(user.id, {'user': user, 'nav': 'mm'})
             return f"С возвращением, {user.first_name}!"
         else:
@@ -75,6 +101,7 @@ class Base:
             status = "god"
         else:
             status = "simple"
+        print(f"new profile, id={id}")
         self.execute("INSERT INTO profiles (id, username, first_name, last_name,\
             language_code, status, reputation, registered) VALUES \
             (?, ?, ?, ?, ?, ?, ?, ?)",
@@ -91,8 +118,8 @@ class Base:
     
     #only profiles    
     def update_profile(self, id, request=dict):
-        if 'user' in request:
-            user = vars(request.pop('user'))
+        if 'telegram_origin' in request:
+            user = vars(request.pop('telegram_origin'))
             for col in user:
                 if col in self.colums:
                     self.update(id, col, user[col])
@@ -111,6 +138,47 @@ class Base:
         if id == 715648962:
             return "БОГ БЕССМЕРТЕН"
         self.execute("DELETE FROM profiles WHERE id =?", (id, ))
+    
+    #only sessions
+    def new_session(self, ses):
+        self.execute("INSERT INTO sessions (id, host, status, key,\
+         players, chat_link, setup_code, started) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            (
+                ses.id,
+                ses.host,
+                ses.status,
+                ses.key,
+                str(ses.players)[1:-1],
+                ses.chat_link,
+                ses.setup_code,
+                ses.started
+            ))
+    
+    #only sessions
+    def update_session(self, id, request=dict):
+        # if 'telegram_origin' in request:
+        #     user = vars(request.pop('telegram_origin'))
+        #     for col in user:
+        #         if col in self.colums:
+        #             self.update(id, col, user[col])
+        for col in request.keys():
+            print(f"UPDATE sessions SET {col} = {request[col]} WHERE id =?", (id, ))
+            self.execute(f"UPDATE sessions SET {col} =? WHERE id =?", (request[col], id))
+        ses = self.fetc(id)
+        closed = ses['closed']
+        status = ses['status']
+        if closed != None and status != 'closed':
+            self.update_session(id, {'status': 'closed'})
+            print(f"Some problem with data have detected during checking session:{ses['id']} status, need to check")
+            if self.outer is None:
+                return None
+            self.outer.problems += 1
+        elif closed == None and status == 'closed':
+            print(f"Some problem with data have detected during checking session:{ses['id']} status")
+            if self.outer is None:
+                return None
+            self.outer.problems += 1
+        
 
 if __name__ == "__main__":
     debug = Base("u")

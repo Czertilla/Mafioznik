@@ -1,6 +1,6 @@
 import telebot
 # import sqlite3
-from base import Base 
+# from base import Base 
 import threading
 import time
 
@@ -11,11 +11,12 @@ def f(x = lambda x: x if (not x is None) else 1):
 
 
 if __name__ == "__main__":
-    var = None
-    test = lambda x: x if (x!=None) else 1
-    print(test(None))
-    print(test(2))
-    f(var)
+    print(str([123, 123, 123]))
+    # var = None
+    # test = lambda x: x if (x!=None) else 1
+    # print(test(None))
+    # print(test(2))
+    # f(var)
 
 
 # 80 циклов имитации операций ввода-вывода закончены

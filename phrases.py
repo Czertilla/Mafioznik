@@ -35,7 +35,49 @@ def helping (nav):
             'ru': f"Вы находитесь в лобби и скоро начнете играть в Мафию. \n/info - Просмотреть информацию о лобби\n/chat - Получить ссылку чата\n/quit - Выйти из лобби",
             'en': f"You are in the lobby and will start playing Mafia soon. \n/info - View information about the lobby\n/chat - Get a chat link\n/quit - Quit the lobby"
         }
-    
+
+def ses_list():
+    return {
+        'ru': 'Выберете сессию',
+        'en': 'Select a session'
+    }
+
+def add_new_session():
+    return {
+        'ru': 'Создать новую',
+        'en': 'Create new one'
+    }
+
+def ses_menu(id):
+    return {
+        'ru': f"Меню сессии {id}",
+        'en': f"Session menu {id}"
+    }
+
+def session_close():
+    return {
+        'ru': "Завершить сессию (навсегда)",
+        'en': "End session (permanently)"
+    }
+
+def session_privacy():
+    return {
+        'ru': "Настроить доступ к сессии",
+        'en': "Configure session access"
+    }
+
+def select_password():
+    return {
+        'ru': 'Напишите пароль для ограничения доступа других игроков, или сделайте сессию открытой!',
+        'en': 'Write a password to restrict access to other players, or make the session public!'
+    }
+
+def open_pass():
+    return {
+        'ru': "Сделать открытым (без пароля)",
+        'en': "Make public (no password)"
+    }
+
 def main_menu(but=''):
     buts = {
         '': {
