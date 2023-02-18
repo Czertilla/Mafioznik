@@ -1,8 +1,10 @@
-import main
 import sys
-import time
 import threading
+import time
+
+import main
 from base import Base
+
 
 class Admin:
     def __init__(self):
@@ -13,7 +15,8 @@ class Admin:
         self.commands = {
             "start": self.start,
             "close": self.close,
-            "ban_wave": self.ban_wave
+            "ban_wave": self.ban_wave,
+            "search": self.search
         }
         self.threads = {
             'm': self.main
@@ -66,9 +69,19 @@ class Admin:
             self.users_data.execute(f"UPDATE profiles SET status=? WHERE id=?", ('banned', id[0]))
         print(f"{len(id_list)} users was banned")
     
-    def search(self, request):
-        print(self.users_data.search(request))
-        print(self.users_data.search(request))
+    def search(self, var=list):
+        pass
+        # what = None
+
+        # d = {
+
+        # }
+        # for i in var:
+        #     if '=' in i:
+        #         pos=i[:'=']
+        #         val=i['='+1]
+        # print(self.users_data.search(request))
+        # print(self.users_data.search(request))
         
 
 if __name__ == "__main__":
