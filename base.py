@@ -1,9 +1,13 @@
 import sqlite3
+
 import clock
 import phrases
 
+
 class Base:
     def __init__(self, code, outer=None):
+        self.exceptions_stack = []
+        self.exceptions_count = 0
         self.mode = {'u': "profiles", 'g': "sessions"}[code]
         self.outer = outer
         try:
@@ -13,7 +17,7 @@ class Base:
                 self.base_name = 'users'
                 # self.con = sqlite3.connect("db/users.db", check_same_thread=False)
             elif self.mode == 'sessions':
-                self.colums = ('id', 'host', 'status', 'key', 'players', 'chat_link', 'setup_code', 'started', 'closed')
+                self.colums = ('id', 'host', 'status', 'key','multiplayer', 'players', 'chat_link', 'setup_code', 'started', 'closed')
                 self.base_name = 'games'
                 # self.con = sqlite3.connect("db/games.db", check_same_thread=False)
         except Exception as e:
@@ -27,8 +31,14 @@ class Base:
                 con.commit()
             return result
         except Exception as e:
+            if e == self.exceptions_stack:
+                self.exceptions_count += 1
+            else:
+                self.exceptions_count = 0
+            self.exceptions_stack.append(e)
             print(f"Some exception: {e}")
-            self.execute(request, values)
+            if self.exceptions_count <= 20:
+                self.execute(request, values)
 
     def fetc(self, id):
         data = self.execute(f"SELECT * FROM {self.mode} WHERE id=?", (id, ))
@@ -40,10 +50,10 @@ class Base:
             r += 1
         return answer
     
-    def search(self, what, where=False, only_whole=False, sample=False):
-        if not where:
+    def search(self, what, where=None, sample=None , only_whole=False):
+        if where is None:
             where = self.mode
-        if not sample:
+        if sample is None:
             sample = self.colums
         elif type(sample) == str:
             sample = (sample, )

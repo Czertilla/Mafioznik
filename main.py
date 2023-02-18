@@ -1,11 +1,14 @@
-import telebot
-from maf import Maf
-from setup import SetUp
-from base import Base
 import sys
-import phrases
 import threading
+
+import telebot
+
+import phrases
+from base import Base
+from maf import Maf
 from session import Session
+from setup import SetUp
+
 
 class Mafioznik(telebot.TeleBot):
     def ses_init(self):
@@ -13,8 +16,15 @@ class Mafioznik(telebot.TeleBot):
     
     def get_user(self, message):
         id = message.from_user.id
-        user = users_data.fetc(id)
+        user = self.users_data.fetc(id)
         return user
+    
+    def get_session(self, ses_id=None, key=None, host=None):
+        if not ses_id in self.sessions:
+            ses = Session(key=key, id=ses_id, host=host)
+            self.sessions[ses.id] = ses
+            ses_id = ses.id
+        return self.sessions[ses_id]
     
     def get_command(self, message):
         if type(message) == str:
@@ -28,6 +38,10 @@ class Mafioznik(telebot.TeleBot):
 
 
     def main(self, users_data, games_data):
+        self.users_data = users_data
+        self.games_data = games_data
+        self.ses_init()
+
         @self.message_handler(commands=["start"])
         def start(message):
             user = message.from_user
@@ -58,7 +72,6 @@ class Mafioznik(telebot.TeleBot):
             code = call.data.split()[0]
             id = call.message.chat.id
             users_data.update_profile(id, {'language_code': code})
-            self.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
             self.send_message(id, phrases.commit('cl')[code])
 
         @self.message_handler(commands=["connect"])
@@ -74,10 +87,8 @@ class Mafioznik(telebot.TeleBot):
                     command = message.text
                     spot = command.find(' ')
                     password = command[spot:]
-                ses = Session(key=password, id=ses_id, host=id)
-                self.sessions[ses.id] = ses
-                ses_id = self.sessions[ses.id].id
-                request = {'nav': f"hs/{ses_id}"}
+                ses = self.get_session(key=password, ses_id=ses_id, host=id)
+                request = {'nav': f"hs/{ses.id}"}
                 users_data.update_profile(id, request)
             session_menu(message, ses_id)
             
@@ -127,10 +138,12 @@ class Mafioznik(telebot.TeleBot):
             set_password(call, tail)
 
         @self.message_handler(commands=["session_menu"])
-        def session_menu(message, ses_id):
+        def session_menu(message, ses_id=None):
             user = self.get_user(message)
             lang = user['language_code']
             ses_menu = telebot.types.InlineKeyboardMarkup()
+            ses_menu.add(telebot.types.InlineKeyboardButton(text=phrases.session_multiplayer()[lang],\
+                callback_data=f"sm {ses_id} mp"))
             ses_menu.add(telebot.types.InlineKeyboardButton(text=phrases.session_privacy()[lang],\
                 callback_data=f"sm {ses_id} sp"))
             ses_menu.add(telebot.types.InlineKeyboardButton(text=phrases.session_close()[lang],\
@@ -143,10 +156,47 @@ class Mafioznik(telebot.TeleBot):
             menu, var = self.get_command(call.data)
             ses_id, command = var.split()
             {
+                'mp': session_multiplayer_menu,
                 'sp': session_privacy,
                 'sc': session_close
             }[command](call, ses_id)
-
+        
+        @self.message_handler(commands=["session_multiplayer"])
+        def session_multiplayer_menu(message, ses_id=None):
+            if ses_id is None:
+                var = self.get_command(message)[1].split()
+                ses_id = var[0]
+                if ses_id == '':
+                    return None
+                if var[-1] == 'm':
+                    session_multiplayer_intaractive(call=f"{ses_id}m")
+                elif var[-1] == 's':
+                    session_multiplayer_intaractive(call=f"{ses_id}s")
+                else:
+                    session_multiplayer_menu(message, ses_id=ses_id)
+            else:
+                user = self.get_user(message)
+                lang = user['language_code']
+                ses = self.get_session(ses_id)
+                menu = telebot.types.InlineKeyboardMarkup()
+                menu.add(telebot.types.InlineKeyboardButton(text=phrases.session_mp_mode('m')[lang],\
+                callback_data=f"mpm/sm {ses_id} m"))
+                menu.add(telebot.types.InlineKeyboardButton(text=phrases.session_mp_mode('s')[lang],\
+                callback_data=f"mpm/sm {ses_id} s"))
+                self.send_message(user['id'], phrases.set_mp_mode(ses.multiplayer)[lang], reply_markup=menu)
+        
+        @self.callback_query_handler(func=lambda call:'mpm/sm' == call.data[:6])
+        def session_multiplayer_intaractive(call):
+            self.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
+            if type(call) == str:
+                mode = call[-1] == 'm'
+                ses_id = call[:-1]
+            else:
+                mode = call.data[-2:] == 'm'
+                ses_id = call.data[7:-2]
+            ses = self.get_session(ses_id)
+            ses.update({'multiplayer': mode})
+            
         @self.message_handler(commands=["session_privacy"])
         def session_privacy(message, ses_id='new'):
             user = self.get_user(message)
@@ -290,7 +340,6 @@ class Mafioznik(telebot.TeleBot):
 
 if __name__ == "__main__":
     bot = Mafioznik("5392200451:AAETSpaOC3XepS3cqvOGz0RHjSO7I1ImKlE")
-    bot.ses_init()
     users_data = Base('u')
     games_data = Base('g')
     bot.main(users_data, games_data)

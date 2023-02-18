@@ -54,6 +54,36 @@ def ses_menu(id):
         'en': f"Session menu {id}"
     }
 
+def session_multiplayer():
+    return {
+        'ru': 'Настройки режима мультиплеера',
+        'en': 'Multiplayer mode settings'
+    }
+
+def set_mp_mode(mp=bool):
+    if mp:
+        return {
+            'ru': 'Сейчас установлен мультиплеерный режим. Приглашайте и играйте со своими друзьями. Каждый использует бота. Вы можете поменять режим:',
+            'en': 'Now set to multiplayer mode. Invite and play with your friends. Everyone uses a bot. You can change the mode:'
+        }
+    else:
+        return {
+            'ru': 'Сейчас установлен режим синглплеерной игры. Режим ассистента для ведущего. Бот взаимодействует только с ведущим. Вы можете поменять режим:',
+            'en': 'Now set to single player mode. Assistant mode for presenter. The bot interacts only with the host. You can change the mode:'
+        }
+
+def session_mp_mode(mode):
+    if mode == 'm':
+        return {
+            'ru': 'Мультиплеерный режим',
+            'en': 'Multiplayer mode'
+        }
+    elif mode == 's':
+        return {
+            'ru': 'Режим синглплеера',
+            'en': 'Single Player Mode'
+        }
+
 def session_close():
     return {
         'ru': "Завершить сессию (навсегда)",

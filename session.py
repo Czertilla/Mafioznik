@@ -1,6 +1,8 @@
 import uuid
+
 import base
 import clock
+
 
 class Session:
     def __init__(self, host, id=None, key=''):
@@ -9,6 +11,8 @@ class Session:
         if id:
             self.id = id
             self.refresh()
+            if 'not exist' in self.expections or 'was closed' in self.expections:
+                return None
             self.init_vars()
             return None
         else:
@@ -16,6 +20,7 @@ class Session:
             self.host = host
             self.status = 'lobby'
             self.key = key
+            self.multiplayer = True
             self.players = []
             self.chat_link = ''
             self.setup_code = 'STOCK'
@@ -34,6 +39,7 @@ class Session:
             'host': self.host,
             'status': self.status,
             'key': self.key,
+            'multiplayer': self.multiplayer,
             'players': self.players,
             'chat_link': self.chat_link,
             'setup_code': self.setup_code,
